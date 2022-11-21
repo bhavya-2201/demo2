@@ -1,0 +1,107 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+
+#
+# Complete the 'breakPalindrome' function below.
+#
+# The function is expected to return a STRING.
+# The function accepts STRING palindromeStr as parameter.
+#
+
+def breakPalindrome(palindromeStr):
+    # Write your code here
+    unique_char=set(palindromeStr)
+    #if len(unique_char)==1:
+    #    return "IMPOSSIBLE"
+    for i,c in enumerate(palindromeStr[:len(palindromeStr)//2]):
+        if c!="a":
+            temp=palindromeStr[:i]+"a"+palindromeStr[i+1:]
+            if temp<palindromeStr:
+                return temp
+    if len(palindromeStr) > 1:
+        temp=palindromeStr[:-1]+"b"
+        if temp<palindromeStr:
+            return palindromeStr[:-1]+"b"
+        else:
+            return "IMPOSSIBLE"
+    else:
+        return "IMPOSSIBLE"
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    palindromeStr = input()
+
+    result = breakPalindrome(palindromeStr)
+
+    fptr.write(result + '\n')
+
+    fptr.close()
+
+
+
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+
+#
+# Complete the 'budgetShopping' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts following parameters:
+#  1. INTEGER n
+#  2. INTEGER_ARRAY bundleQuantities
+#  3. INTEGER_ARRAY bundleCosts
+#
+
+
+def budgetShopping(n, bundleQuantities, bundleCosts):
+    temp=[(q*(n//bundleCosts[i]),(q,bundleCosts[i])) for i ,q in enumerate(bundleQuantities)]
+    sorted_temp=sorted(temp,reverse=True)
+    count=0
+    left=n
+    for i in sorted_temp:
+        if left <i[1][1]:
+            continue
+        count+=i[1][0]*((left-(left%i[1][1]))/i[1][1])
+        left=left%i[1][1]
+    return int(count)
+        
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = int(input().strip())
+
+    bundleQuantities_count = int(input().strip())
+
+    bundleQuantities = []
+
+    for _ in range(bundleQuantities_count):
+        bundleQuantities_item = int(input().strip())
+        bundleQuantities.append(bundleQuantities_item)
+
+    bundleCosts_count = int(input().strip())
+
+    bundleCosts = []
+
+    for _ in range(bundleCosts_count):
+        bundleCosts_item = int(input().strip())
+        bundleCosts.append(bundleCosts_item)
+
+    result = budgetShopping(n, bundleQuantities, bundleCosts)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
